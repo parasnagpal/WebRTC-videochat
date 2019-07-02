@@ -1,0 +1,26 @@
+html,body{
+    height: 100%;
+}
+
+body{
+    background-color: rgba(226, 226, 226, 0.685);
+}
+video{
+    width: inherit;
+    background-color: gray;
+}
+.btn{
+    max-width: unset !important;
+}
+
+#head{
+    text-align: center;
+    font-weight: bold;
+    font-size: 2em;
+}
+#body{
+    height: 80%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
