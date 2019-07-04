@@ -5,6 +5,7 @@
     var remoteVideo;
     var peerConnection;
     var backto
+    var UIN
     var peerConnectionConfig = {
         'iceServers': [
           {'urls': 'stun:stun.stunprotocol.org:3478'},
@@ -18,14 +19,32 @@
         remoteVideo = document.getElementById('remoteVideo');
     
         socket.on('forward',(message)=>{
-            gotMessageFromServer(message)
+            console.log(message)
+            if(!peerConnection)
+              backto=message.from
+            if(message.to==UIN)
+            {
+             gotMessageFromServer(message)
+            } 
         })
+        var constraints = {
+            video: true,
+            audio: true,
+        };
+    
+        if(navigator.mediaDevices.getUserMedia) {
+            navigator.mediaDevices.getUserMedia(constraints) .then(getUserMediaSuccess) .catch(getUserMediaError);
+        } else {
+            alert('Your browser does not support getUserMedia API');
+        }
+
     }
 
     socket.on('uin',(data)=>{
        console.log("My UIN is "+data)
        var uin=document.getElementById('uin')
        uin.innerText='Unique Identifation Number: '+data;
+       UIN=data
     })
 
     function myvideo(){
@@ -43,6 +62,7 @@
 
     function getUserMediaSuccess(stream) {
         localStream = stream;
+        console.log(stream)
         localVideo.srcObject = stream;
     }
     
@@ -70,14 +90,14 @@
         console.log('got description');
         peerConnection.setLocalDescription(description, function () {
             //serverConnection.send(JSON.stringify({'sdp': description}));
-            socket.emit('message',{'sdp': description,'to':document.getElementById('to').value})
+            socket.emit('message',{'sdp': description,'to':document.getElementById('to').value|backto,'from':UIN})
         }, function() {console.log('set description error')});
     }
     
     function gotIceCandidate(event) {
         if(event.candidate != null) {
             //serverConnection.send(JSON.stringify({'ice': event.candidate}));
-            socket.emit('message',{'ice': event.candidate,'to':backto})
+            socket.emit('message',{'ice': event.candidate,'to':document.getElementById('to').value|backto,'from':UIN})
         }
     }
     
@@ -94,10 +114,10 @@
 
     function gotMessageFromServer(message) {
         console.log('message!!')
-        if(!peerConnection) start(false);
-
+        if(!peerConnection) 
+          start(false);
+        
         var signal=message
-        backto=message.to
         if(signal.sdp) {
             peerConnection.setRemoteDescription(new RTCSessionDescription(signal.sdp)).then( function() {
                 if(signal.sdp.type == 'offer') {

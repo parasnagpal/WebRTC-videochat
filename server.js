@@ -43,7 +43,7 @@ io.on('connection',(socket)=>{
     socket.emit('uin',uin)
     socket.on('message',(message)=>{
         console.log(message)
-        socket.to(revmap[message.to]).emit('forward',(message.sdp)?{'sdp':message.sdp,'to':map[socket.id]}:{'ice':message.ice,'to':map[socket.id]})
+        io.emit('forward',message)
     })
 })
 
