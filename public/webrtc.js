@@ -3,6 +3,9 @@
     var remoteVideo;
     var localStream;
     var remoteVideo;
+    var startbtn;
+    var callbtn;
+    var hangbtn;
     var peerConnection;
     var backto
     var UIN
@@ -17,27 +20,29 @@
     function pageReady() {
         localVideo = document.getElementById('localVideo');
         remoteVideo = document.getElementById('remoteVideo');
-    
+        startbtn=document.getElementById('startbtn');
+        callbtn=document.getElementById('callbtn');
+        hangbtn=document.getElementById('hangbtn');
+        
+        callbtn.disabled=true
+        hangbtn.disabled=true
+
         socket.on('forward',(message)=>{
             console.log(message)
             if(!peerConnection)
               backto=message.from
-            if(message.to==UIN)
+            if(!message.disconnect)
             {
-             gotMessageFromServer(message)
-            } 
+              if(message.to==UIN)
+                gotMessageFromServer(message) 
+            }
+            else{
+                alert('The other user has ended the call')
+                window.location.reload()
+                 
+            }
         })
-        var constraints = {
-            video: true,
-            audio: true,
-        };
-    
-        if(navigator.mediaDevices.getUserMedia) {
-            navigator.mediaDevices.getUserMedia(constraints) .then(getUserMediaSuccess) .catch(getUserMediaError);
-        } else {
-            alert('Your browser does not support getUserMedia API');
-        }
-
+        
     }
 
     socket.on('uin',(data)=>{
@@ -48,6 +53,7 @@
     })
 
     function myvideo(){
+
         var constraints = {
             video: true,
             audio: true,
@@ -58,12 +64,15 @@
         } else {
             alert('Your browser does not support getUserMedia API');
         }
+
     }
 
     function getUserMediaSuccess(stream) {
         localStream = stream;
         console.log(stream)
         localVideo.srcObject = stream;
+        startbtn.disabled=true
+        callbtn.disabled=false
     }
     
     function getUserMediaError(error) {
@@ -84,6 +93,7 @@
         if(isCaller) {
             peerConnection.createOffer().then(gotDescription).catch (createOfferError);
         }
+       
     }
     
     function gotDescription(description) {
@@ -106,6 +116,8 @@
         const mediastream=event.stream;
         console.log(mediastream)
         remoteVideo.srcObject = mediastream;
+        callbtn.disabled=true
+        hangbtn.disabled=false
     }
     
     function createOfferError(error) {
@@ -136,6 +148,12 @@
 
     function hangcall(){
         peerConnection=null;
+        socket.emit('message',{
+           disconnect:true,
+           to:document.getElementById('to').value|backto,
+           from:UIN
+        })
+        
     }
     window.onload=function(){
         pageReady()

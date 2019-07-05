@@ -24,3 +24,7 @@ video{
     flex-direction: column;
     justify-content: center;
 }
+input:focus{
+   box-shadow: none ;
+   border: 1px black solid !important;
+}
