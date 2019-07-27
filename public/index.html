@@ -7,10 +7,14 @@
     <!--required scripts-->
       <script src="socket.io/socket.io.js"></script>
       <script src="./webrtc.js"></script>
+
     <!--stylesheet-->
+      <link rel="stylesheet" href="https://unpkg.com/@coreui/coreui/dist/css/coreui.min.css">
       <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
       <link rel="stylesheet" href="./css/style.css">
-    <title>Document</title>
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+      <link rel='stylesheet' href='https://use.fontawesome.com/releases/v5.7.0/css/all.css'>
+    <title>VideoChat</title>
 </head>
 <body>
         
@@ -40,15 +44,19 @@
        
        </div>
        <div class="row justify-content-center">
-         <input type="number" id='to'>
+         <input type="text" id='to' placeholder="Enter UIN here">
        </div>
        <div class="row justify-content-center"> 
-          <input type="button" id='startbtn' onclick="myvideo()" value="Start" class='btn btn-outline-dark col-3 m-1'></input>
-          <input type="button" id="callbtn" onclick="start(true)" value="Call" class='btn btn-outline-dark col-3 m-1'></input>
-          <input type="button" id='hangbtn' onclick="hangcall()"value="Hang Up" class='btn btn-outline-dark col-3 m-1'></input>
+          <button id='startbtn' onclick="myvideo()" class='btn btn-outline-dark m-2'><i class="fa fa-arrow-right"></i></button>
+          <button id="callbtn" onclick="start(true)" class='btn btn-outline-dark m-2'><i class="fa fa-phone"></i></button>
+          <button id='hangbtn' onclick="hangcall()" class='btn btn-outline-dark m-2'><i class='fas fa-phone-slash'></i></button>
         </div>  
     </div>
     </div>
         
+    <script src="http://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" ></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" ></script>
+    <script src="https://unpkg.com/@coreui/coreui/dist/js/coreui.min.js"></script>
 </body>
 </html>

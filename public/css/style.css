@@ -19,7 +19,7 @@ video{
     font-size: 2em;
 }
 #body{
-    height: 80%;
+   
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -27,4 +27,12 @@ video{
 input:focus{
    box-shadow: none ;
    border: 1px black solid !important;
+}
+input{
+    background-color: #ebebeb;
+    border: none;
+}
+input:focus{
+    outline:none !important;
+    border:none;
 }
