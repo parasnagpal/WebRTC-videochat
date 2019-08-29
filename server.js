@@ -8,23 +8,7 @@ var io = require('socket.io')(http);
 var path=require('path')
 var map={}
 var revmap={}
-//var WebSocketServer = require('ws').Server;
 
-//var wss = new WebSocketServer({port: 8000});
-/*
-wss.broadcast = function(data) {
-    for(var i in this.clients) {
-        this.clients[i].send(data);
-    }
-};
-
-wss.on('connection', function(ws) {
-    console.log('Connection made')
-    ws.on('message', function(message) {
-        console.log('received: %s', message);
-        wss.broadcast(message);
-    });
-});*/
 
 function generateUIN(){
     return Math.floor(Math.random()*10)
