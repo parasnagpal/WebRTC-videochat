@@ -133,7 +133,7 @@
         if(signal.sdp) {
             peerConnection.setRemoteDescription(new RTCSessionDescription(signal.sdp)).then( function() {
                 if(signal.sdp.type == 'offer') {
-                    peerConnection.createAnswer().then(gotDescription).catch( createAnswerError);
+                    peerConnection.createAnswer().then(gotDescription).catch( errorHandler);
                 }
             });
         } else if(signal.ice) {
